@@ -14,3 +14,12 @@ a {
 * {
   box-sizing: border-box;
 }
+
+ul {
+  display: flex;
+}
+
+li {
+  display: inline;
+  margin: auto;
+}
