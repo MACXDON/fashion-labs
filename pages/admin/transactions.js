@@ -1,8 +1,8 @@
 const Transactions = () => {
     return (
-        <>
-            <h1>Welcome</h1>
-        </>
+        <div>
+            <h2>Transactions</h2>
+        </div>
     )
 }
 

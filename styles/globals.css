@@ -4,6 +4,9 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  background-color: #404040;
+  color: #FFF;
 }
 
 a {
@@ -15,11 +18,114 @@ a {
   box-sizing: border-box;
 }
 
-ul {
+.nav {
+  width: 100vw;
+}
+
+.nav ul {
   display: flex;
 }
 
 li {
   display: inline;
-  margin: auto;
+  margin: 0 1rem;
+}
+
+.nav li {
+  background-color: #8C8C8C;
+  padding: 8px;
+  border-radius: 7px;
+}
+
+.nav img {
+  margin: 1rem 0 0;
+  position: relative;
+}
+
+.search-bar {
+  padding: 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+/* Add product input fields */
+form {
+  display: grid;
+  grid-template-areas:
+        "a b c"
+        "d e f"
+        "g h ."
+        "i . .";
+  align-items: center;
+  justify-content: space-around;
+}
+
+input[type="text"], input[type="number"] {
+  margin: 0 3px;
+  padding: 5px;
+  outline: none;
+  border-radius: 3px;
+  border: none;
+}
+
+.product-form {
+  padding: 2rem;
+  margin: 0 auto;
+  background-color: #8C8C8C;
+  width: auto;
+  height: auto;
+  position: absolute;
+  z-index: 100;
+  border-radius: 10px;
+}
+
+.product-form-submit, .product-add-button, .close-product-form {
+  padding: 8px;
+  border-radius: 7px;
+  text-decoration: none;
+  border: none;
+  font-weight: 600;
+  background-color: rgb(72, 72, 220);
+  color: rgb(216, 216, 216);
+}
+
+.product-form-submit:hover, .product-add-button:hover, .close-product-form:hover {
+  cursor: pointer;
+  background-color: rgb(72, 72, 245);
+}
+
+.close-product-form {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Product list */
+.product-list {
+  margin: 0 0 1rem;
+  padding: 0.5rem;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+/***************************************/
+/* SHOPPER PAGE */
+
+/* NAV */
+
+.shopper-container input[type="radio"] {
+  visibility: hidden;
+  
+}
+
+.shopper-container label {
+  cursor: pointer;
+}
+
+.shopper-container input:checked+label {
+  padding: 8px;
+  border-radius: 7px;
+  background-color: rgb(37, 37, 131);
 }

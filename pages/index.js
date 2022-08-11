@@ -17,8 +17,6 @@ export default function Home() {
   //   console.log(listOfProducts)
   // }, [])
 
-  let display = contentDisplay ? 'block' : 'none';
-
   return (
     <div className={styles.container}>
       

@@ -1,28 +1,40 @@
 const ProductSubmitForm = (
     {
+        display,
         handleSubmit,
+        handleDescriptionChange,
         handleCategoryChange,
         handleDiscountChange,
         handleDiscountPriceChange,
         handlePriceChange,
         handleSizesChange,
         handleQuantityChange,
-        handleTypeChange
+        handleTypeChange,
+        handleProductFormDisplay
     }) => {
     return ( 
-        <form onSubmit={(e) => {
+        <div className="product-form" style={{ display: display }}>
+            <button className="close-product-form" onClick={handleProductFormDisplay}>X</button>
+            <h3>Add New Item:</h3>
+            <form onSubmit={(e) => {
             e.preventDefault();
             handleSubmit()
         }}>
+                {/* name */}
+                <div onChange={handleDescriptionChange}>
+                    <legend>Description:</legend>
+                    <input type='text' id='description' name='description' required/>
+                </div>
+
                 {/* category */}
                 <div onChange={handleCategoryChange}>
                     <legend>Category:</legend>
                     <div>
-                        <input type='radio' id='category' name='category' value='top' />
+                        <input type='radio' id='category' name='category' value='tops' />
                         <label htmlFor='category'>Top</label>
                     </div>
                     <div>
-                        <input type='radio' id='category' name='category' value='bottom' />
+                        <input type='radio' id='category' name='category' value='bottoms' />
                         <label htmlFor='category'>Bottom</label>
                     </div>
                     <div>
@@ -43,11 +55,11 @@ const ProductSubmitForm = (
                 <div onChange={handleDiscountChange}>
                     <legend>Discount:</legend>
                     <div>
-                        <input type='radio' id='discount' name='discount' value='shoes' />
+                        <input type='radio' id='discount' name='discount' value={true} />
                         <label htmlFor='discount'>True</label>
                     </div>
                     <div>
-                        <input type='radio' id='discount' name='discount' value='athletic' />
+                        <input type='radio' id='discount' name='discount' value={false} />
                         <label htmlFor='discount'>False</label>
                     </div>
                 </div>
@@ -59,9 +71,6 @@ const ProductSubmitForm = (
                         <input type='number' name="discountPrice" />
                     </div>
                 </div>
-
-                {/* id */}
-                
 
                 {/* price */}
                 <div onChange={handlePriceChange}>
@@ -124,8 +133,9 @@ const ProductSubmitForm = (
                         <label htmlFor="girl">Girl</label>
                     </div>
                 </div>
-                <input type='submit' />
-        </form>
+                <input className="product-form-submit" type='submit' />
+            </form>
+        </div>
     );
 }
  

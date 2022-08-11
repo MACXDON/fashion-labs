@@ -1,8 +1,11 @@
 import ProductSubmitForm from "../../components/ProductSubmitForm";
 import { useEffect, useState } from "react";
-import { addProducts } from "../../util/products";
+import { addProducts, getProducts } from "../../util/products";
+import ProductList from "../../components/ProductList";
+import SearchBar from "../../components/SearchBar";
 
-function Products () {
+function Products ({ listOfProducts }) {
+    const [description, setDescription] = useState();
     const [category, setCategory] = useState('000');
     const [discount, setDiscount] = useState();
     const [discountPrice, setDiscountPrice] = useState();
@@ -11,6 +14,18 @@ function Products () {
     const [quantity, setQuantity] = useState();
     const [type, setType] = useState([]);
     const [id, setId] = useState();
+
+    const [list, setList] = useState(listOfProducts);
+
+    const [display, setDisplay] = useState('none');
+
+    function handleProductFormDisplay() {
+        if(display === 'block') {
+            setDisplay('none')
+            return
+        }
+        setDisplay('block');
+    }
 
     useEffect(() => {
         const randomNumber = Math.floor(Math.random() * 999).toString();
@@ -27,6 +42,10 @@ function Products () {
 
         setId(newId)
     }, [category])
+
+    function handleDescriptionChange(e) {
+        setDescription(e.target.value);
+    }
 
     function handleCategoryChange(e) {
         setCategory(e.target.value);
@@ -59,6 +78,7 @@ function Products () {
     async function handleSubmit() {
         const data = {
             id: id,
+            description: description,
             category: category,
             discount: discount,
             discountPrice: discountPrice,
@@ -70,8 +90,10 @@ function Products () {
 
         console.log(data);
 
-        // await addProducts(data);
+        await addProducts(data);
+        alert('Added');
 
+        setDescription();
         setCategory();
         setDiscount();
         setDiscountPrice();
@@ -81,11 +103,49 @@ function Products () {
         setType([]);
     }
 
+    /*
+    * SEARCH ALLOWS YOU TO FILTER ANY SPECIFIC PRODUCTS
+    */
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        let newList;
+
+        if(search === '') {
+            newList = listOfProducts;
+            
+            setList(newList);
+            return
+        }
+
+        newList = list.filter(product => {
+            const description = product.description.toLowerCase();
+
+            if(description.includes(search)) {
+                return product;
+            }
+        })
+
+        setList(newList);
+
+    }, [search]);
+
+    function handleSearchValue(e) {
+        setSearch(e.target.value)
+    }
+
     return ( 
         <div>
-            <h3>Add New Item:</h3>
-            <ProductSubmitForm 
+            <SearchBar 
+                search={search}
+                handleSearchValue={handleSearchValue}
+            />
+            <ProductList productList={list}/>
+            <button className="product-add-button" onClick={handleProductFormDisplay}>Add Item</button>
+            <ProductSubmitForm
+                display={display}
                 handleSubmit={handleSubmit}
+                handleDescriptionChange={handleDescriptionChange}
                 handleCategoryChange={handleCategoryChange}
                 handleDiscountChange={handleDiscountChange}
                 handleDiscountPriceChange={handleDiscountPriceChange}
@@ -93,9 +153,21 @@ function Products () {
                 handleSizesChange={handleSizesChange}
                 handleQuantityChange={handleQuantityChange}
                 handleTypeChange={handleTypeChange}
+                handleProductFormDisplay={handleProductFormDisplay}
             />
         </div>
     );
+}
+
+export async function getStaticProps() {
+    const data = await getProducts();
+    console.log(data)
+
+    return {
+        props: {
+            listOfProducts: data,
+        },
+    }
 }
 
 export default Products ;
