@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import Transactions from './transactions';
 import Products from './Products';
+import styles from '../../styles/Home.module.css'
 
 const Admin = (props) => {
-    const adminNavCategories = ['Transactions', 'Products'];
+    const adminNavCategories = ['TRANSACTIONS', 'PRODUCTS'];
 
     return (
-        <div className="admin-container" style={{ display: props.display }}>
+        <div className={styles.container} id="admin-container" style={{ display: props.display }}>
+            <div className='admin-container-nav'>
             <ul>
                 {
                     adminNavCategories.map((category, index) => {
@@ -18,6 +20,7 @@ const Admin = (props) => {
                     })
                 }
             </ul>
+            </div>
         </div>
     )
 }

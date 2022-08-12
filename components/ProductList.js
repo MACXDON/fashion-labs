@@ -6,8 +6,7 @@ function ProductList({ productList }) {
                     productList.map((product, index) => {
                         return (
                             <div className="product-list" key={index}>
-                                <span>{product.description}</span>
-                                <span></span>
+                                <div>{product.description}</div>
                                 <div>Quantity: {product.totalQuantity}</div>
                             </div>
                         )

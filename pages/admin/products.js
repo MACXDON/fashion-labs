@@ -135,7 +135,7 @@ function Products ({ listOfProducts }) {
     }
 
     return ( 
-        <div>
+        <div className="admin-product-page-container">
             <SearchBar 
                 search={search}
                 handleSearchValue={handleSearchValue}

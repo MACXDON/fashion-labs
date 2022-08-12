@@ -7,6 +7,7 @@ function SearchBar({ search, handleSearchValue }) {
                 className="search-bar" 
                 type='text' 
                 placeholder="Search"
+                id="search"
             />
         </div>
     );
