@@ -2,6 +2,7 @@ const ProductSubmitForm = (
     {
         display,
         handleSubmit,
+        handleImageFileChange,
         handleDescriptionChange,
         handleCategoryChange,
         handleDiscountChange,
@@ -10,130 +11,140 @@ const ProductSubmitForm = (
         handleSizesChange,
         handleQuantityChange,
         handleTypeChange,
-        handleProductFormDisplay
+        handleProductFormDisplay,
+        description,
+        category,
+        discount,
+        discountPrice,
+        price,
+        sizes,
+        quantity,
+        type,
     }) => {
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            handleSubmit();
+        }
+
+        function disableIfDiscountIsFalse() {
+            if(discount === false) return ( 'disabled' )
+            
+            return 'enabled'
+        }
     return ( 
         <div className="product-form" style={{ display: display }}>
             <button className="close-product-form" onClick={handleProductFormDisplay}>X</button>
             <h3>Add New Item:</h3>
-            <form onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit()
-        }}>
+            <form onSubmit={handleFormSubmit}>
+                {/* image */}
+                <div>
+                    <span>Add an Image:</span> <input accept="image/*" multiple onChange={handleImageFileChange} type='file' id='image-file-input'/>
+                </div>
+
                 {/* name */}
-                <div onChange={handleDescriptionChange}>
-                    <legend>Description:</legend>
-                    <input type='text' id='description' name='description' required/>
+                <div>
+                    <input placeholder="Description" onChange={handleDescriptionChange} value={description} type='text' id='description' name='description' required/>
                 </div>
 
                 {/* category */}
-                <div onChange={handleCategoryChange}>
+                <div>
                     <legend>Category:</legend>
                     <div>
-                        <input type='radio' id='category' name='category' value='tops' />
+                        <input onChange={handleCategoryChange} checked={category === 'tops'} type='radio' id='category' name='category'  value='tops'/>
                         <label htmlFor='category'>Top</label>
                     </div>
                     <div>
-                        <input type='radio' id='category' name='category' value='bottoms' />
+                        <input onChange={handleCategoryChange} checked={category === 'bottoms'} type='radio' id='category' name='category'  value='bottoms'/>
                         <label htmlFor='category'>Bottom</label>
                     </div>
                     <div>
-                        <input type='radio' id='category' name='category' value='outerwear' />
+                        <input onChange={handleCategoryChange} checked={category === 'outerwear'} type='radio' id='category' name='category'  value='outerwear'/>
                         <label htmlFor='category'>Outerwear</label>
                     </div>
                     <div>
-                        <input type='radio' id='category' name='category' value='shoes' />
+                        <input onChange={handleCategoryChange} checked={category === 'shoes'} type='radio' id='category' name='category'  value='shoes'/>
                         <label htmlFor='category'>Shoes</label>
                     </div>
                     <div>
-                        <input type='radio' id='category' name='category' value='athletic' />
+                        <input onChange={handleCategoryChange} checked={category === 'athletic'} type='radio' id='category' name='category'  value='athletic'/>
                         <label htmlFor='category'>Athletic</label>
                     </div>
                 </div>
 
                 {/* discount */}
-                <div onChange={handleDiscountChange}>
+                <div>
                     <legend>Discount:</legend>
                     <div>
-                        <input type='radio' id='discount' name='discount' value={true} />
+                        <input onChange={handleDiscountChange} checked={discount === 'true'} type='radio' id='discount' name='discount' value={true}/>
                         <label htmlFor='discount'>True</label>
                     </div>
                     <div>
-                        <input type='radio' id='discount' name='discount' value={false} />
+                        <input onChange={handleDiscountChange} checked={discount === 'false'} type='radio' id='discount' name='discount' value={false}/>
                         <label htmlFor='discount'>False</label>
                     </div>
                 </div>
 
                 {/* discount price */}
-                <div onChange={handleDiscountPriceChange}>
-                    <legend>Discount Price:</legend>
-                    <div>
-                        <input type='number' name="discountPrice" />
-                    </div>
+                <div>
+                <input onChange={handleDiscountPriceChange} value={discountPrice} type='number' name="discountPrice" placeholder="Discount Price" />
                 </div>
 
                 {/* price */}
-                <div onChange={handlePriceChange}>
-                    <legend>Price:</legend>
-                    <div>
-                        <input type="number" name="price" required/>
-                    </div>
+                <div>
+                <input onChange={handlePriceChange} value={price} type="number" name="price" placeholder="Price" required/>
                 </div>
                 
                 {/* sizes */}
-                <div onChange={handleSizesChange}>
+                <div>
                     <legend>Sizes:</legend>
                     <div>
-                        <input type="checkbox" id="large" name="large" value="large" />
+                        <input onChange={handleSizesChange} checked={sizes.includes('large')} type="checkbox" id="large" name="large"  value='large'/>
                         <label htmlFor="sizes">Large</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="medium" name="medium" value="medium" />
+                        <input onChange={handleSizesChange} checked={sizes.includes('medium')} type="checkbox" id="medium" name="medium"  value='medium'/>
                         <label htmlFor="medium">Medium</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="small" name="small" value="small" />
+                        <input onChange={handleSizesChange} checked={sizes.includes('small')} type="checkbox" id="small" name="small"  value='small'/>
                         <label htmlFor="small">Small</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="extra-small" name="extra-small" value="extra-small" />
+                        <input onChange={handleSizesChange} checked={sizes.includes('extra-small')} type="checkbox" id="extra-small" name="extra-small"  value='extra-small'/>
                         <label htmlFor="extra-small">Extra Small</label>
                     </div>
                 </div>
 
                 {/* totalquantity */}
-                <div onChange={handleQuantityChange}>
-                    <legend>Quantity:</legend>
-                    <div>
-                        <input type='number' name="totalQuantity" required/>
-                    </div>
+                <div>
+                    <input placeholder="Quantity" onChange={handleQuantityChange} value={quantity} type='number' name="totalQuantity" required/>
                 </div>
 
                 {/* type */}
-                <div onChange={handleTypeChange}>
+                <div>
                     <legend>Type:</legend>
                     <div>
-                        <input type="checkbox" id="men" name="men" value="men" />
+                        <input onChange={handleTypeChange} checked={type.includes('men')} type="checkbox" id="men" name="men"  value='men'/>
                         <label htmlFor="men">Men</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="women" name="women" value="women" />
+                        <input onChange={handleTypeChange} checked={type.includes('women')} type="checkbox" id="women" name="women"  value='women'/>
                         <label htmlFor="women">Women</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="boy" name="boy" value="boy" />
+                        <input onChange={handleTypeChange} checked={type.includes('boy')} type="checkbox" id="boy" name="boy"  value='boy'/>
                         <label htmlFor="boy">Boy</label>
                     </div>
 
                     <div>
-                        <input type="checkbox" id="girl" name="girl" value="girl" />
+                        <input onChange={handleTypeChange} checked={type.includes('girl')} type="checkbox" id="girl" name="girl"  value='girl'/>
                         <label htmlFor="girl">Girl</label>
                     </div>
                 </div>
-                <input className="product-form-submit" type='submit' />
+                <input className="product-form-submit" type='submit'/>
             </form>
         </div>
     );

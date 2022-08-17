@@ -1,5 +1,5 @@
 import { db } from "./firebase";
-import { getDocs, collection, setDoc, doc, query, where } from "firebase/firestore";
+import { getDocs, collection, setDoc, doc, query, where, deleteDoc } from "firebase/firestore";
 
 async function getProducts() {
     const listOfProducts = [];
@@ -39,4 +39,20 @@ async function queryProduct(categoryToSearch) {
     return listOfProducts;
 }
 
-export { getProducts, addProducts, queryProduct };
+async function deleteProduct(id) {
+    const ref = collection(db, 'Product');
+    const queriedSearch = query(ref, where('id', '==', id));
+    const querySnapshot = await getDocs(queriedSearch);
+    
+    let documentId;
+
+    querySnapshot.forEach(doc => {
+        documentId = doc.id;
+    })
+
+    if(documentId) {
+        await deleteDoc(doc(db, 'Product', documentId));
+    }
+}
+
+export { getProducts, addProducts, queryProduct, deleteProduct };

@@ -23,6 +23,7 @@ a {
 }
 
 .nav {
+  width: 100%;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
@@ -54,6 +55,7 @@ li {
 }
 
 .nav img {
+  flex: 1;
   margin: 1rem 0 0;
   position: relative;
 }
@@ -85,13 +87,15 @@ input[type="text"], input[type="number"] {
 
 .product-form {
   padding: 2rem;
-  margin: 0 auto;
+  margin: auto;
   background-color: #8C8C8C;
   width: auto;
   height: auto;
   position: absolute;
-  z-index: 100;
-  border-radius: 10px;
+  top: 25%;
+  left: 10%;
+  z-index: 99;
+  border-radius: 5px;
 }
 
 .product-form-submit, .product-add-button, .close-product-form {
@@ -116,6 +120,9 @@ input[type="text"], input[type="number"] {
 
 /* Product list */
 .product-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 60%;
   margin: 0 0 0.5rem;
   padding: 0.5rem;

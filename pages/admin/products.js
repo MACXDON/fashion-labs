@@ -1,20 +1,23 @@
 import ProductSubmitForm from "../../components/ProductSubmitForm";
 import { useEffect, useState } from "react";
-import { addProducts, getProducts } from "../../util/products";
+import { addProducts, deleteProduct, getProducts } from "../../util/productFunctions";
 import ProductList from "../../components/ProductList";
 import SearchBar from "../../components/SearchBar";
+import { uploadProductImage } from "../../util/cloudStorageFunctions";
 
 function Products ({ listOfProducts }) {
-    const [description, setDescription] = useState();
-    const [category, setCategory] = useState('000');
-    const [discount, setDiscount] = useState();
-    const [discountPrice, setDiscountPrice] = useState();
-    const [price, setPrice] = useState();
+    const [imageFile, setImageFile] = useState(null);
+    const [imageName, setImageName] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [discount, setDiscount] = useState(false);
+    const [discountPrice, setDiscountPrice] = useState('');
+    const [price, setPrice] = useState('');
     const [sizes, setSizes] = useState([]);
-    const [quantity, setQuantity] = useState();
+    const [quantity, setQuantity] = useState('');
     const [type, setType] = useState([]);
     const [id, setId] = useState();
-
+    
     const [list, setList] = useState(listOfProducts);
 
     const [display, setDisplay] = useState('none');
@@ -32,16 +35,36 @@ function Products ({ listOfProducts }) {
 
         let baseNumber;
 
-        if(category === 'top') baseNumber = '101';
-        if(category === 'bottom') baseNumber = '201';
+        if(category === 'tops') baseNumber = '101';
+        if(category === 'bottoms') baseNumber = '201';
         if(category === 'outerwear') baseNumber = '301';
         if(category === 'shoes') baseNumber = '401';
         if(category === 'athletic') baseNumber = '501';
 
-        let newId = Number(baseNumber + randomNumber);
+        let newId = baseNumber + randomNumber;
+        newId = Number(newId);
 
         setId(newId)
     }, [category])
+
+    function handleImageFileChange(e) {
+        e.preventDefault();
+        const imageList = [];
+
+        const files = e.target.files
+        
+        for(const image in files) {
+            if(typeof files[image] === 'object') imageList.push(files[image]);
+        }
+
+        if(imageList.length === 0) console.log('List is empty')
+
+        let imageFile = imageList[0];
+        let imageName = imageList[0].name
+
+        setImageName(imageName);
+        setImageFile(imageFile);
+    }
 
     function handleDescriptionChange(e) {
         setDescription(e.target.value);
@@ -76,8 +99,11 @@ function Products ({ listOfProducts }) {
     }
 
     async function handleSubmit() {
+        // const productImagesBaseRef = 'images/product-images/';
+
         const data = {
             id: id,
+            image: imageName,
             description: description,
             category: category,
             discount: discount,
@@ -87,20 +113,27 @@ function Products ({ listOfProducts }) {
             totalQuantity: quantity,
             type: type,
         }
-
-        console.log(data);
+        
+        await uploadProductImage(imageName, imageFile);
 
         await addProducts(data);
+        
+        setImageFile(null);
+        setImageName('');
+        setDescription('');
+        setCategory('');
+        setDiscount(false);
+        setDiscountPrice(0);
+        setPrice(null);
+        setSizes([]);
+        setQuantity(null);
+        setType([]);
+        setDisplay('none')
+
         alert('Added');
 
-        setDescription();
-        setCategory();
-        setDiscount();
-        setDiscountPrice();
-        setPrice();
-        setSizes([]);
-        setQuantity();
-        setType([]);
+        setSearch('a');
+        setSearch('');
     }
 
     /*
@@ -134,17 +167,31 @@ function Products ({ listOfProducts }) {
         setSearch(e.target.value)
     }
 
+    async function deleteProductById(e) {
+        let productId = (e.target.value);
+
+        if(typeof productId === 'string') productId = Number(productId);
+        await deleteProduct(productId)
+        
+        setSearch('a');
+        setSearch('');
+    }
+
     return ( 
         <div className="admin-product-page-container">
             <SearchBar 
                 search={search}
                 handleSearchValue={handleSearchValue}
             />
-            <ProductList productList={list}/>
+            <ProductList 
+                productList={list}
+                deleteProduct={deleteProductById}
+            />
             <button className="product-add-button" onClick={handleProductFormDisplay}>Add Item</button>
             <ProductSubmitForm
                 display={display}
                 handleSubmit={handleSubmit}
+                handleImageFileChange={handleImageFileChange}
                 handleDescriptionChange={handleDescriptionChange}
                 handleCategoryChange={handleCategoryChange}
                 handleDiscountChange={handleDiscountChange}
@@ -154,6 +201,15 @@ function Products ({ listOfProducts }) {
                 handleQuantityChange={handleQuantityChange}
                 handleTypeChange={handleTypeChange}
                 handleProductFormDisplay={handleProductFormDisplay}
+            
+                description={description}
+                category={category}
+                discount={discount}
+                discountPrice={discountPrice}
+                price={price}
+                sizes={sizes}
+                quantity={quantity}
+                type={type}
             />
         </div>
     );

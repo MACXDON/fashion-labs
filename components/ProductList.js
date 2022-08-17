@@ -1,4 +1,6 @@
-function ProductList({ productList }) {
+import RemoveProduct from "./RemoveProduct";
+
+function ProductList({ productList, deleteProduct }) {
     return ( 
         <div className="product-list-component">
             <ul>
@@ -6,8 +8,14 @@ function ProductList({ productList }) {
                     productList.map((product, index) => {
                         return (
                             <div className="product-list" key={index}>
-                                <div>{product.description}</div>
-                                <div>Quantity: {product.totalQuantity}</div>
+                                <div>
+                                    <div>{product.description}</div>
+                                    <div>Quantity: {product.totalQuantity}, {product.id}</div>
+                                </div>
+                                <RemoveProduct 
+                                    id={product.id} 
+                                    handleClick={deleteProduct}
+                                />
                             </div>
                         )
                     })

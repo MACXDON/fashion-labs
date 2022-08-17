@@ -1,9 +1,9 @@
 function ProductCard({ product }) {
-    const { description, sizes, type } = product;
-
+    const { description, imageLink, sizes, type } = product;
+    
     return (
         <div className="product-card">
-            <img src="images/placeholder-image.png" />
+            <img src={imageLink ? imageLink : "images/placeholder-image.png"} />
             <p>{description}</p>
         </div>
     );
