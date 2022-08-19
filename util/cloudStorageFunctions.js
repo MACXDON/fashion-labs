@@ -3,30 +3,23 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const productImagesRef = ref(storage, 'images/product-images');
 
-function uploadProductImage(fileName, file) {
-    uploadBytes(productImagesRef, file)
+function getImageURL(fileName, file) {
+    const filePath = `${productImagesRef}/${fileName}`;
+    const imageRef = ref(storage, filePath);
+
+    return uploadBytes(imageRef, file)
         .then(snapshot => {
-            console.log(`File: ${fileName} uploaded successfully.`);
+            console.log(`File: ${fileName} uploaded successfully.`);     
+        })
+        .then(path => {
+            return getDownloadURL(imageRef);
+        })
+        .then(src => {
+            return src;
         })
         .catch(e => {
             console.error(e);
         })
-
 }
 
-function downloadProductImage(file) {
-    const imageRef = ref(storage, file);
-    let imageSrc;
-
-    getDownloadURL(imageRef)
-        .then(src => {
-            console.log(src);
-            imageSrc = src;
-            return imageSrc;
-        })
-        .catch(e => {
-            console.log(e);
-        });
-}
-
-export { uploadProductImage, downloadProductImage }
+export { getImageURL }

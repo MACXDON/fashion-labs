@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import { queryProduct } from "../../util/productFunctions";
 import styles from '../../styles/Home.module.css'
-import { downloadProductImage } from "../../util/cloudStorageFunctions";
 
 const Shopper = (props) => {
     const shopperNavCategories = ['TOPS', 'BOTTOMS', 'OUTERWEAR', 'SHOES', 'ATHLETIC'];
@@ -61,7 +60,7 @@ const Shopper = (props) => {
                         return <ProductCard
                                     key={index}
                                     product={product}
-                                    image={downloadProductImage(product.imageLink)}
+                                    src={product.imageSrc}
                                 />
                     })
                 }

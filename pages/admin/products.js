@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 import { addProducts, deleteProduct, getProducts } from "../../util/productFunctions";
 import ProductList from "../../components/ProductList";
 import SearchBar from "../../components/SearchBar";
-import { uploadProductImage } from "../../util/cloudStorageFunctions";
+import { getImageURL } from "../../util/cloudStorageFunctions";
 
 function Products ({ listOfProducts }) {
-    const [imageFile, setImageFile] = useState(null);
+    const [imageFile, setImageFile] = useState('');
     const [imageName, setImageName] = useState('');
+    const [imageSrc, setImageSrc] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [discount, setDiscount] = useState(false);
@@ -79,11 +80,13 @@ function Products ({ listOfProducts }) {
     }
 
     function handleDiscountPriceChange(e) {
-        setDiscountPrice(e.target.value);
+        const newDiscountPrice = Number(e.target.value);
+        setDiscountPrice(newDiscountPrice);
     }
 
     function handlePriceChange(e) {
-        setPrice(e.target.value);
+        const newPrice = Number(e.target.value)
+        setPrice(newPrice);
     }
 
     function handleSizesChange(e) {
@@ -91,19 +94,28 @@ function Products ({ listOfProducts }) {
     }
 
     function handleQuantityChange(e) {
-        setQuantity(e.target.value);
+        const newQuantity = Number(e.target.value)
+        setQuantity(newQuantity);
     }
 
     function handleTypeChange(e) {
         setType(prev => [...prev, e.target.value]);
     }
 
+    useEffect(() => {
+        async function changeImageSrc() {
+            const src = await getImageURL(imageName, imageFile);
+            setImageSrc(src);
+        }
+
+        changeImageSrc();
+    }, [imageFile]);
+    
     async function handleSubmit() {
-        // const productImagesBaseRef = 'images/product-images/';
 
         const data = {
             id: id,
-            image: imageName,
+            imageSrc: imageSrc,
             description: description,
             category: category,
             discount: discount,
@@ -113,20 +125,21 @@ function Products ({ listOfProducts }) {
             totalQuantity: quantity,
             type: type,
         }
-        
-        await uploadProductImage(imageName, imageFile);
 
-        await addProducts(data);
+        console.log(data);
+
+        if(imageSrc) await addProducts(data);
         
-        setImageFile(null);
+        setImageFile('');
         setImageName('');
+        setImageSrc('');
         setDescription('');
         setCategory('');
         setDiscount(false);
         setDiscountPrice(0);
-        setPrice(null);
+        setPrice('');
         setSizes([]);
-        setQuantity(null);
+        setQuantity('');
         setType([]);
         setDisplay('none')
 
@@ -217,7 +230,6 @@ function Products ({ listOfProducts }) {
 
 export async function getStaticProps() {
     const data = await getProducts();
-    console.log(data)
 
     return {
         props: {
