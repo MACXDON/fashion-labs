@@ -1,10 +1,30 @@
-function ProductCard({ product, src }) {
-    const { description, sizes, type } = product;
-    
+const style = {
+    button: {
+        backgroundColor: '#FFF',
+        fontWeight: '600',
+        padding: '0.25rem 0.5rem',
+        border: '1px solid #000',
+        borderRadius: '9px',
+    },
+
+    images: {
+        maxWidth: '200px',
+    }
+}
+
+function ProductCard({ product, src, handleClick }) {
+    const { description, sizes, type, price } = product;
+
     return (
         <div className="product-card">
-            <img className="product-image" src={src ? src : "images/placeholder-image.png"} />
-            <p>{description}</p>
+            <img style={style.images} className="product-image" src={
+                src 
+                ? src 
+                : "images/placeholder-image.png"} />
+            <p>{description} ${price}</p>
+            <div>
+                <button onClick={handleClick} style={style.button}>+</button>
+            </div>
         </div>
     );
 }

@@ -12,7 +12,7 @@
 }
 
 .main {
-  padding: 1rem;
+  padding-top: 12.5vh;
   min-height: 100vh;
   flex-grow: 1;
   display: flex;
@@ -40,5 +40,7 @@
 }
 
 @media (max-width: 600px) {
-
+  .main {
+    padding-top: 20vh;
+  }
 }

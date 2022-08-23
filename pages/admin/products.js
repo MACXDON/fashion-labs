@@ -4,6 +4,7 @@ import { addProducts, deleteProduct, getProducts } from "../../util/productFunct
 import ProductList from "../../components/ProductList";
 import SearchBar from "../../components/SearchBar";
 import { getImageURL } from "../../util/cloudStorageFunctions";
+import SignOutButton from "../../components/SignOutButton";
 
 function Products ({ listOfProducts }) {
     const [imageFile, setImageFile] = useState('');
@@ -118,8 +119,8 @@ function Products ({ listOfProducts }) {
             imageSrc: imageSrc,
             description: description,
             category: category,
-            discount: discount,
-            discountPrice: discountPrice,
+            discount: Boolean(discount),
+            discountPrice: (discountPrice/100),
             price: price,
             sizes: sizes,
             totalQuantity: quantity,
@@ -192,6 +193,7 @@ function Products ({ listOfProducts }) {
 
     return ( 
         <div className="admin-product-page-container">
+            <SignOutButton />
             <SearchBar 
                 search={search}
                 handleSearchValue={handleSearchValue}

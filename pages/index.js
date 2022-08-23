@@ -1,19 +1,17 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { useState, useEffect } from 'react';
+import Link from 'next/link'
 
 export default function Home() {
-  const [contentDisplay , setContentDisplay] = useState(true);
-  const [listOfProducts, setListOfProducts] = useState();
-
-  // useEffect(() => {
-  //   setListOfProducts(getProducts());
-  //   console.log(listOfProducts)
-  // }, [])
-
   return (
-    <div>
-      
+    <div className='home-page'>
+      <div className='section-1'>
+        <img src='images/page-images/page-image-2.jpg'/>
+        <img src='images/page-images/page-image-4.jpg'/>
+      </div>
+      <div className='section-2'>
+        <img src='images/page-images/page-image-ensemble1.jpg'/>
+        <img src='images/page-images/page-image-ensemble2.jpg'/>
+      </div>
     </div>
   )
 }

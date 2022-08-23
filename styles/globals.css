@@ -18,12 +18,15 @@ a {
   box-sizing: border-box;
 }
 
-.nav {
-  width: 100vw;
+button:hover {
+  cursor: pointer;
 }
 
 .nav {
+  background-color: #FFF;
+  position: fixed;
   width: 100%;
+  height: auto;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
@@ -60,13 +63,35 @@ li {
   position: relative;
 }
 
+/* HOME PAGE */
+.section-1 {
+  margin: 1rem 0;
+}
+
+.section-1 img {
+  width: 50%;
+  height: 30rem;
+  margin-bottom: 1rem;
+}
+
+.section-2 {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-2 img {
+  max-width: 30%;
+}
+
 /* ADMIN */
 .admin-product-page-container {
   padding: 2rem;
 }
 
 /* Add product input fields */
-form {
+.product-form form {
   display: grid;
   grid-template-areas:
         "a b c"
@@ -77,7 +102,7 @@ form {
   justify-content: space-around;
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], .sign-in-page input {
   margin: 0 3px;
   padding: 0.25rem 0.5rem;
   outline: none;
@@ -98,7 +123,7 @@ input[type="text"], input[type="number"] {
   border-radius: 5px;
 }
 
-.product-form-submit, .product-add-button, .close-product-form {
+.product-form-submit, .product-add-button, .close-product-form, .sign-in-page button{
   padding: 0.25rem 0.5rem;
   border-radius: 3px;
   text-decoration: none;
@@ -106,6 +131,24 @@ input[type="text"], input[type="number"] {
   font-weight: 500;
   background-color: #000;
   color: #FFF;
+}
+
+.sign-in-page button {
+  background-color: rgb(76, 76, 76);
+  height: 2.25rem;
+}
+
+.sign-in-page button:hover {
+  cursor: pointer;
+  background-color: rgb(110, 110, 110);
+}
+
+.sign-in-page div {
+  margin-bottom: 1rem;
+}
+
+.sign-in-page button, .sign-in-page input {
+  width: 25vw;
 }
 
 .product-form-submit:hover, .product-add-button:hover, .close-product-form:hover {
@@ -197,4 +240,49 @@ input[type="text"], input[type="number"] {
 
 .product-card img {
   max-width: 15rem;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding-top: 0px;
+  }
+
+  .nav {
+    justify-content: center;
+  }
+
+  .section-1, .section-2 {
+    width: 100vw;
+  }
+
+  .section-1 img, .section-2 img {
+    display: block;
+    width: 100%;
+  }
+
+  .shopper-container-search {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+
+  .shooper-nav-items {
+    display: none;
+    position: absolute;
+    background-color: #FFF;
+    width: 100%;
+    height: 100vh;
+    z-index: 99;
+  }
+
+  .shooper-nav-items ul {
+    text-align: start;
+  }
+
+  .shooper-nav-items li {
+    font-weight: 400;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    display: block;
+  }
 }
