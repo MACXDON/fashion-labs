@@ -1,7 +1,7 @@
-function CheckOutButton({ handleClick, checkoutList}) {
+function CheckOutButton({ handleClick, totalCheckoutItems}) {
     const style = {
         checkoutListNumber: {
-            display: checkoutList.length === 0 ? 'none' : 'flex',
+            display: totalCheckoutItems === 0 ? 'none' : 'flex',
             zIndex: '99',
             width: '1rem',
             height: '1rem',
@@ -24,7 +24,7 @@ function CheckOutButton({ handleClick, checkoutList}) {
             <a onClick={handleClick}>
                 <div style={{ position: 'sticky', display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}>
                     <img className="shopping-bag" src='/images/icons/bag.jpg'/>
-                    <span style={style.checkoutListNumber} className="checkout-list-number">{checkoutList.length}</span>
+                    <span style={style.checkoutListNumber} className="checkout-list-number">{totalCheckoutItems}</span>
                 </div>
             </a>
         </>

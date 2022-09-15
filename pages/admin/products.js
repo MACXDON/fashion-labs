@@ -129,8 +129,8 @@ function Products ({ listOfProducts }) {
 
         newList = list.filter(product => {
             const description = product.description.toLowerCase();
-
-            if(description.includes(search)) {
+            const lowerCaseSearch = search.toLocaleLowerCase();
+            if(description.includes(lowerCaseSearch)) {
                 return product;
             }
         })

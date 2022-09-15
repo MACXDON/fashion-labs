@@ -21,6 +21,12 @@ function Checkout() {
         images: {
             width: '40px',
             borderRadius: '3',
+        },
+        productQuantity: {
+            padding: '0.25rem 0.5rem',
+            border: '1px solid rgb(220,220,220)',
+            fontWeight: 'bold',
+            borderRadius: '5px',
         }
     }
 
@@ -28,15 +34,15 @@ function Checkout() {
         <div style={style.container} className="checkout">
             <div style={style.checkoutContainer}>
                 {
-                    checkoutList
+                    checkoutList.length > 0
                     ? (
                         <ul>
                             {checkoutList.map((product, index) => {
                                 return (
-                                    <li key={`${index}-${product.id}`} style={{ display: 'block' }}>
+                                    <li key={`${index}-${product.id}`} style={{ display: 'block', marginBottom: '0.5rem' }}>
                                         <img src={product.imageSrc} style={style.images}/>
-                                        <p>{product.description}</p>
-                                        <p>{`$${product.price}`}</p>
+                                        <p>{`${product.description} $${product.price}`}</p>
+                                        <span style={style.productQuantity}>{product.quantity}</span>
                                     </li>
                                 )
                             })}

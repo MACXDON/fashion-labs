@@ -15,7 +15,7 @@ const Shopper = ({ dataList }) => {
     const [search, setSearch] = useState('');
 
     const { checkoutList, setCheckoutList } = useContext(AppContext);
-
+    const { totalCheckoutItems, setTotalCheckoutItems } = useContext(AppContext);
     // list.forEach(element => {
     //     console.log(element)    
     // })
@@ -58,21 +58,43 @@ const Shopper = ({ dataList }) => {
         getProductCards();
     }, [category]);
 
+    function updateCheckoutBag() {
+        const totalQuantity = 0;
+
+        for(let i of checkoutList) {
+            totalQuantity += i.quantity;
+        }
+        console.log(totalQuantity);
+        setTotalCheckoutItems(totalQuantity);
+    }
+
     function addToCheckoutList(product) {
         const checkoutItem = {
             id: product.id,
-            image: product.imageSrc,
+            imageSrc: product.imageSrc,
             description: product.description,
             price: product.price,
+            quantity: 1,
         }
 
         if(checkoutList.length === 0) {
-            setCheckoutList([product])
+            setCheckoutList([checkoutItem])
+            setTotalCheckoutItems(1);
             return
         }
 
+        // increase quantity of item if its already in the list
+        for(let i of checkoutList) {
+            if(checkoutItem.id === i.id) {
+                i.quantity += 1;
+                updateCheckoutBag();
+
+                return;
+            }
+        }
+
+        updateCheckoutBag();
         setCheckoutList(prev => [...prev, checkoutItem])
-        console.log(checkoutList);
     }
 
     function sendCheckoutList() {
@@ -100,7 +122,11 @@ const Shopper = ({ dataList }) => {
                 </div>
                 <div className="shopper-container-search">
                     
-                    <CheckOutButton checkoutList={checkoutList} handleClick={sendCheckoutList}/>
+                    <CheckOutButton 
+                        checkoutList={checkoutList} 
+                        handleClick={sendCheckoutList}
+                        totalCheckoutItems={totalCheckoutItems}
+                    />
 
                     <form  onSubmit={handleSearchSubmit}>
                         <input value={search} onChange={handleSearchChange} id="search" className="shopper-product-search-bar" type='text' placeholder="Search"/>
