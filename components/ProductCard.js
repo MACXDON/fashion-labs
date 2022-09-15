@@ -3,7 +3,7 @@ const style = {
         backgroundColor: '#FFF',
         fontWeight: '600',
         padding: '0.25rem 0.5rem',
-        border: '1px solid #000',
+        border: '1px solid rgb(0 0 0 / 25%)',
         borderRadius: '9px',
     },
 

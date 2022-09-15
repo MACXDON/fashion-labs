@@ -111,8 +111,39 @@ function Products ({ listOfProducts }) {
 
         changeImageSrc();
     }, [imageFile]);
+
+    /*
+    * SEARCH ALLOWS YOU TO FILTER ANY SPECIFIC PRODUCTS
+    */
+    const [search, setSearch] = useState('');
+
+    useEffect(() => {
+        let newList;
+
+        if(search === '') {
+            newList = listOfProducts;
+            
+            setList(newList);
+            return
+        }
+
+        newList = list.filter(product => {
+            const description = product.description.toLowerCase();
+
+            if(description.includes(search)) {
+                return product;
+            }
+        })
+
+        setList(newList);
+
+    }, [search]);
+
+    function handleSearchValue(e) {
+        setSearch(e.target.value)
+    }
     
-    async function handleSubmit() {
+    async function addNewProduct() {
 
         const data = {
             id: id,
@@ -150,45 +181,17 @@ function Products ({ listOfProducts }) {
         setSearch('');
     }
 
-    /*
-    * SEARCH ALLOWS YOU TO FILTER ANY SPECIFIC PRODUCTS
-    */
-    const [search, setSearch] = useState('');
-
-    useEffect(() => {
-        let newList;
-
-        if(search === '') {
-            newList = listOfProducts;
-            
-            setList(newList);
-            return
-        }
-
-        newList = list.filter(product => {
-            const description = product.description.toLowerCase();
-
-            if(description.includes(search)) {
-                return product;
-            }
-        })
-
-        setList(newList);
-
-    }, [search]);
-
-    function handleSearchValue(e) {
-        setSearch(e.target.value)
-    }
-
     async function deleteProductById(e) {
         let productId = (e.target.value);
 
         if(typeof productId === 'string') productId = Number(productId);
         await deleteProduct(productId)
         
-        setSearch('a');
-        setSearch('');
+        const newProductList = list.filter(product => {
+            if(product.id !== productId) return product;
+        })
+
+        setList(newProductList);
     }
 
     return ( 
@@ -205,7 +208,7 @@ function Products ({ listOfProducts }) {
             <button className="product-add-button" onClick={handleProductFormDisplay}>Add Item</button>
             <ProductSubmitForm
                 display={display}
-                handleSubmit={handleSubmit}
+                handleSubmit={addNewProduct}
                 handleImageFileChange={handleImageFileChange}
                 handleDescriptionChange={handleDescriptionChange}
                 handleCategoryChange={handleCategoryChange}

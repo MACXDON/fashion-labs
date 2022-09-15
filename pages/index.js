@@ -10,6 +10,7 @@ export default function Home() {
       </div>
       <div className='section-2'>
         <img src='images/page-images/page-image-ensemble1.jpg'/>
+        <img src='images/product-images/accessories.jpg'/>
         <img src='images/page-images/page-image-ensemble2.jpg'/>
       </div>
     </div>

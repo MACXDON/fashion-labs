@@ -26,8 +26,11 @@ const Admin = (props) => {
             signInWithEmailAndPassword(auth, email, password)
                 .then(userCredential => {
                     const user = userCredential.user;
-
+                })
+                .then(() => {
                     setIsSignedIn(true);
+                    console.log(isSignedIn);
+                    
                     router.push('/admin/products')
                 })
                 .catch(error => {

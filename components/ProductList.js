@@ -10,7 +10,8 @@ function ProductList({ productList, deleteProduct }) {
                             <div className="product-list" key={index}>
                                 <div>
                                     <div>{product.description}</div>
-                                    <div>Quantity: {product.totalQuantity}, {product.id}</div>
+                                    <br/>
+                                    <div>Quantity: {product.totalQuantity} SKU: {product.id}</div>
                                 </div>
                                 <RemoveProduct 
                                     id={product.id} 

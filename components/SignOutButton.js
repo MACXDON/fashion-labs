@@ -6,7 +6,6 @@ const signOutButtonStyles = {
     div: {
 
         position: 'absolute',
-        zIndex: '99',
         top: '7rem',
         right: '2rem',
     },

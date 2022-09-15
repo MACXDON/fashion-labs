@@ -1,29 +1,25 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState, useContext } from "react";
 import ProductCard from "../../components/ProductCard";
 import { queryProduct, getProducts } from "../../util/productFunctions";
 import styles from '../../styles/Home.module.css'
-
-const style = {
-    checkoutListNumber: {
-        padding: '0.25rem',
-        backgroundColor: '#F00',
-        fontSize: '0.5rem',
-        color: '#FFF',
-        borderRadius: '10px',
-        display: 'inline-block'
-
-    }
-}
+import CheckOutButton from "../../components/CheckOutButton";
+import { AppContext } from "../../util/contextAPI/ContextAPI";
 
 const Shopper = ({ dataList }) => {
     const shopperNavCategories = ['TOPS', 'BOTTOMS', 'OUTERWEAR', 'SHOES', 'ATHLETIC'];
+    const router = useRouter();
 
     const [category, setCategory] = useState('');
     const [listOfProducts, setListOfProducts] = useState([]);
-    const [checkoutList, setCheckoutList] = useState([]);
     const [search, setSearch] = useState('');
 
+    const { checkoutList, setCheckoutList } = useContext(AppContext);
+
+    // list.forEach(element => {
+    //     console.log(element)    
+    // })
+    
     function handleSearchSubmit(e) {
         e.preventDefault();
         
@@ -70,8 +66,17 @@ const Shopper = ({ dataList }) => {
             price: product.price,
         }
 
-        setCheckoutList(prev => [...prev, checkoutItem]);
+        if(checkoutList.length === 0) {
+            setCheckoutList([product])
+            return
+        }
+
+        setCheckoutList(prev => [...prev, checkoutItem])
         console.log(checkoutList);
+    }
+
+    function sendCheckoutList() {
+        if(checkoutList) router.push('shopper/checkout')    
     }
     
     return (
@@ -94,12 +99,9 @@ const Shopper = ({ dataList }) => {
                     </ul>
                 </div>
                 <div className="shopper-container-search">
-                    <Link href='shopper/checkout'>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
-                            <img className="shopping-bag" src='/images/icons/bag.jpg'/>
-                            {/* <p style={style.checkoutListNumber} className="checkout-list-number">{checkoutList.length}</p> */}
-                        </div>
-                    </Link>
+                    
+                    <CheckOutButton checkoutList={checkoutList} handleClick={sendCheckoutList}/>
+
                     <form  onSubmit={handleSearchSubmit}>
                         <input value={search} onChange={handleSearchChange} id="search" className="shopper-product-search-bar" type='text' placeholder="Search"/>
                     </form>
@@ -126,7 +128,6 @@ const Shopper = ({ dataList }) => {
 
 export async function getStaticProps() {
     const data = await getProducts();
-
     return {
         props: {
             dataList: data,

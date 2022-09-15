@@ -1,10 +1,10 @@
 const signInPageStyles = {
     
     container: {
-        width: '75vw',
+        width: '50vw',
         height: '50vh',
         margin: '3rem auto',
-        backgroundColor: '#000',
+        backgroundColor: '#111',
         borderRadius: '7px',
         display: 'flex',
         justifyContent: 'center',
